@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -27,7 +28,9 @@ import org.jboss.logging.Logger;
 @Consumes("application/json")
 public class StoreResource {
 
-  @Inject LegacyStoreManagerGateway legacyStoreManagerGateway;
+  @Inject Event<StoreCreatedEvent> storeCreatedEvent;
+
+  @Inject Event<StoreUpdatedEvent> storeUpdatedEvent;
 
   private static final Logger LOGGER = Logger.getLogger(StoreResource.class.getName());
 
@@ -55,7 +58,8 @@ public class StoreResource {
 
     store.persist();
 
-    legacyStoreManagerGateway.createStoreOnLegacySystem(store);
+    // Propagate to legacy system only after database transaction successfully commits
+    storeCreatedEvent.fire(new StoreCreatedEvent(store));
 
     return Response.ok(store).status(201).build();
   }
@@ -77,7 +81,8 @@ public class StoreResource {
     entity.name = updatedStore.name;
     entity.quantityProductsInStock = updatedStore.quantityProductsInStock;
 
-    legacyStoreManagerGateway.updateStoreOnLegacySystem(updatedStore);
+    // Propagate to legacy system only after database transaction successfully commits
+    storeUpdatedEvent.fire(new StoreUpdatedEvent(entity));
 
     return entity;
   }
@@ -96,15 +101,16 @@ public class StoreResource {
       throw new WebApplicationException("Store with id of " + id + " does not exist.", 404);
     }
 
-    if (entity.name != null) {
+    if (updatedStore.name != null) {
       entity.name = updatedStore.name;
     }
 
-    if (entity.quantityProductsInStock != 0) {
+    if (updatedStore.quantityProductsInStock != 0) {
       entity.quantityProductsInStock = updatedStore.quantityProductsInStock;
     }
 
-    legacyStoreManagerGateway.updateStoreOnLegacySystem(updatedStore);
+    // Propagate to legacy system only after database transaction successfully commits
+    storeUpdatedEvent.fire(new StoreUpdatedEvent(entity));
 
     return entity;
   }

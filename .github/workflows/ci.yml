@@ -1,0 +1,49 @@
+name: Java CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Build, Test & Code Coverage
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: fcs-interview-code-assignment-main/java-assignment
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Make Maven Wrapper Executable
+        run: chmod +x ./mvnw
+
+      - name: Build, Test, and Verify JaCoCo Coverage (>80%)
+        run: ./mvnw clean verify -B
+
+      - name: Archive JaCoCo Code Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: fcs-interview-code-assignment-main/java-assignment/target/jacoco-report/
+          retention-days: 14
+
+      - name: Archive Test Results (Surefire)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-test-reports
+          path: fcs-interview-code-assignment-main/java-assignment/target/surefire-reports/
+          retention-days: 14

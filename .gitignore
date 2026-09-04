@@ -1,0 +1,20 @@
+# OS specific files
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+
+# Maven & Build outputs
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties

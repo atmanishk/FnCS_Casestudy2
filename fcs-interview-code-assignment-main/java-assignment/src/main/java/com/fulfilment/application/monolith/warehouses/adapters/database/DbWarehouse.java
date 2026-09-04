@@ -31,6 +31,7 @@ public class DbWarehouse {
 
   public Warehouse toWarehouse() {
     var warehouse = new Warehouse();
+    warehouse.id = this.id;
     warehouse.businessUnitCode = this.businessUnitCode;
     warehouse.location = this.location;
     warehouse.capacity = this.capacity;
@@ -38,5 +39,17 @@ public class DbWarehouse {
     warehouse.createdAt = this.createdAt;
     warehouse.archivedAt = this.archivedAt;
     return warehouse;
+  }
+
+  public static DbWarehouse fromWarehouse(Warehouse warehouse) {
+    var db = new DbWarehouse();
+    db.id = warehouse.id;
+    db.businessUnitCode = warehouse.businessUnitCode;
+    db.location = warehouse.location;
+    db.capacity = warehouse.capacity;
+    db.stock = warehouse.stock;
+    db.createdAt = warehouse.createdAt;
+    db.archivedAt = warehouse.archivedAt;
+    return db;
   }
 }

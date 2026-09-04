@@ -33,4 +33,124 @@ public class ProductEndpointTest {
         .statusCode(200)
         .body(not(containsString("TONSTAD")), containsString("KALLAX"), containsString("BESTÅ"));
   }
+
+  @Test
+  public void testGetSingleProduct() {
+    given()
+        .when()
+        .get("product/2")
+        .then()
+        .statusCode(200)
+        .body(containsString("KALLAX"));
+  }
+
+  @Test
+  public void testGetNonExistentProductReturns404() {
+    given()
+        .when()
+        .get("product/9999")
+        .then()
+        .statusCode(404);
+  }
+
+  @Test
+  public void testCreateProductSuccessfully() {
+    String json = """
+        {
+          "name": "BILLY_BOOKSHELF",
+          "description": "Bookcase white",
+          "stock": 10
+        }
+        """;
+
+    given()
+        .contentType("application/json")
+        .body(json)
+        .when()
+        .post("product")
+        .then()
+        .statusCode(201)
+        .body(containsString("BILLY_BOOKSHELF"));
+  }
+
+  @Test
+  public void testCreateProductWithIdThrows422() {
+    String json = """
+        {
+          "id": 99,
+          "name": "INVALID_ID_PROD"
+        }
+        """;
+
+    given()
+        .contentType("application/json")
+        .body(json)
+        .when()
+        .post("product")
+        .then()
+        .statusCode(422);
+  }
+
+  @Test
+  public void testUpdateProduct() {
+    String json = """
+        {
+          "name": "KALLAX_NEW_NAME",
+          "stock": 15
+        }
+        """;
+
+    given()
+        .contentType("application/json")
+        .body(json)
+        .when()
+        .put("product/2")
+        .then()
+        .statusCode(200)
+        .body(containsString("KALLAX_NEW_NAME"));
+  }
+
+  @Test
+  public void testUpdateProductWithoutNameThrows422() {
+    String json = """
+        {
+          "stock": 15
+        }
+        """;
+
+    given()
+        .contentType("application/json")
+        .body(json)
+        .when()
+        .put("product/2")
+        .then()
+        .statusCode(422);
+  }
+
+  @Test
+  public void testUpdateNonExistentProductThrows404() {
+    String json = """
+        {
+          "name": "NON_EXISTENT",
+          "stock": 15
+        }
+        """;
+
+    given()
+        .contentType("application/json")
+        .body(json)
+        .when()
+        .put("product/9999")
+        .then()
+        .statusCode(404);
+  }
+
+  @Test
+  public void testDeleteNonExistentProductThrows404() {
+    given()
+        .when()
+        .delete("product/9999")
+        .then()
+        .statusCode(404);
+  }
 }

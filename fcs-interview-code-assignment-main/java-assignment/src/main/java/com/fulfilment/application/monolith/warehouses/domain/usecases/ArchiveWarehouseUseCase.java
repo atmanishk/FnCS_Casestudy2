@@ -4,6 +4,7 @@ import com.fulfilment.application.monolith.warehouses.domain.models.Warehouse;
 import com.fulfilment.application.monolith.warehouses.domain.ports.ArchiveWarehouseOperation;
 import com.fulfilment.application.monolith.warehouses.domain.ports.WarehouseStore;
 import jakarta.enterprise.context.ApplicationScoped;
+import java.time.LocalDateTime;
 
 @ApplicationScoped
 public class ArchiveWarehouseUseCase implements ArchiveWarehouseOperation {
@@ -16,8 +17,16 @@ public class ArchiveWarehouseUseCase implements ArchiveWarehouseOperation {
 
   @Override
   public void archive(Warehouse warehouse) {
-    // TODO implement this method
+    if (warehouse == null) {
+      throw new IllegalArgumentException("Warehouse to archive cannot be null");
+    }
 
+    if (warehouse.archivedAt != null) {
+      // already archived
+      return;
+    }
+
+    warehouse.archivedAt = LocalDateTime.now();
     warehouseStore.update(warehouse);
   }
 }
