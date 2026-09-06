@@ -63,8 +63,8 @@ Production-grade implementation of the **Warehouse, Store, Product, and Fulfillm
 ## Quality Metrics & Testing
 
 - **Total Tests**: **73 tests** across 10 test suites (0 failures, 0 errors).
-- **Line Coverage**: **89.4%** (405 / 453 lines) — verified by JaCoCo.
-- **Instruction Coverage**: **86.4%** (1670 / 1933 instructions).
+- **Line Coverage**: **86.98%** (394 / 453 lines) — verified by JaCoCo.
+- **Instruction Coverage**: **83.91%** (1622 / 1933 instructions).
 - **Automated Gate**: `jacoco-maven-plugin:check` configured to fail any build dropping below 80% line coverage.
 - **Test Profile Portability**: Test execution uses in-memory H2 in PostgreSQL compatibility mode, enabling ultra-fast test execution (under 10 seconds) without external Docker dependencies.
 
@@ -96,7 +96,7 @@ cd fcs-interview-code-assignment-main/java-assignment
 
 To view the generated JaCoCo coverage report:
 ```bash
-open target/site/jacoco/index.html
+open target/jacoco-report/index.html
 ```
 
 ### Running in Development Mode
