@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FulfillmentRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-code-assignment</a> &gt; <a href="index.source.html" class="el_package">com.fulfilment.application.monolith.fulfillment.adapters.database</a> &gt; <span class="el_source">FulfillmentRepository.java</span></div><h1>FulfillmentRepository.java</h1><pre class="source lang-java linenums">package com.fulfilment.application.monolith.fulfillment.adapters.database;
+
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import java.util.List;
+
+@ApplicationScoped
+<span class="fc" id="L8">public class FulfillmentRepository implements PanacheRepository&lt;DbFulfillment&gt; {</span>
+
+  public List&lt;DbFulfillment&gt; findByStoreAndProduct(Long storeId, Long productId) {
+<span class="fc" id="L11">    return list(&quot;storeId = ?1 and productId = ?2&quot;, storeId, productId);</span>
+  }
+
+  public List&lt;String&gt; findDistinctWarehousesByStore(Long storeId) {
+<span class="fc" id="L15">    return find(&quot;select distinct f.warehouseBusinessUnitCode from DbFulfillment f where f.storeId = ?1&quot;, storeId)</span>
+<span class="fc" id="L16">        .project(String.class)</span>
+<span class="fc" id="L17">        .list();</span>
+  }
+
+  public List&lt;Long&gt; findDistinctProductsByWarehouse(String warehouseBuCode) {
+<span class="fc" id="L21">    return find(&quot;select distinct f.productId from DbFulfillment f where f.warehouseBusinessUnitCode = ?1&quot;, warehouseBuCode)</span>
+<span class="fc" id="L22">        .project(Long.class)</span>
+<span class="fc" id="L23">        .list();</span>
+  }
+
+  public DbFulfillment findExisting(Long storeId, Long productId, String warehouseBuCode) {
+<span class="fc" id="L27">    return find(&quot;storeId = ?1 and productId = ?2 and warehouseBusinessUnitCode = ?3&quot;, storeId, productId, warehouseBuCode)</span>
+<span class="fc" id="L28">        .firstResult();</span>
+  }
+
+  public List&lt;DbFulfillment&gt; findByStoreId(Long storeId) {
+<span class="fc" id="L32">    return list(&quot;storeId&quot;, storeId);</span>
+  }
+
+  public List&lt;DbFulfillment&gt; findByWarehouse(String warehouseBuCode) {
+<span class="fc" id="L36">    return list(&quot;warehouseBusinessUnitCode&quot;, warehouseBuCode);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
