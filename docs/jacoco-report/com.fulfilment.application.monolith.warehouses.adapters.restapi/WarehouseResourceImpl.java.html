@@ -40,19 +40,19 @@ import java.util.List;
 
   @Override
   public List&lt;Warehouse&gt; listAllWarehousesUnits() {
-<span class="fc" id="L43">    return warehouseStore.getAll().stream().map(this::toWarehouseResponse).toList();</span>
+<span class="fc" id="L43">    return warehouseStore.getAll().stream().map(WarehouseResourceMapper::toResponse).toList();</span>
   }
 
   @Override
   @Transactional
   public Warehouse createANewWarehouseUnit(@NotNull Warehouse data) {
-<span class="fc" id="L49">    var domainWarehouse = toDomainWarehouse(data);</span>
+<span class="fc" id="L49">    var domainWarehouse = WarehouseResourceMapper.toDomain(data);</span>
     try {
 <span class="fc" id="L51">      createWarehouseOperation.create(domainWarehouse);</span>
 <span class="fc" id="L52">    } catch (IllegalArgumentException e) {</span>
 <span class="fc" id="L53">      throw new WebApplicationException(e.getMessage(), 400);</span>
 <span class="fc" id="L54">    }</span>
-<span class="fc" id="L55">    return toWarehouseResponse(domainWarehouse);</span>
+<span class="fc" id="L55">    return WarehouseResourceMapper.toResponse(domainWarehouse);</span>
   }
 
   @Override
@@ -61,7 +61,7 @@ import java.util.List;
 <span class="fc bfc" id="L61" title="All 2 branches covered.">    if (warehouse == null) {</span>
 <span class="fc" id="L62">      throw new WebApplicationException(&quot;Warehouse with id of &quot; + id + &quot; does not exist.&quot;, 404);</span>
     }
-<span class="fc" id="L64">    return toWarehouseResponse(warehouse);</span>
+<span class="fc" id="L64">    return WarehouseResourceMapper.toResponse(warehouse);</span>
   }
 
   @Override
@@ -78,7 +78,7 @@ import java.util.List;
   @Transactional
   public Warehouse replaceTheCurrentActiveWarehouse(
       String businessUnitCode, @NotNull Warehouse data) {
-<span class="fc" id="L81">    var domainWarehouse = toDomainWarehouse(data);</span>
+<span class="fc" id="L81">    var domainWarehouse = WarehouseResourceMapper.toDomain(data);</span>
 <span class="fc" id="L82">    domainWarehouse.businessUnitCode = businessUnitCode;</span>
     try {
 <span class="fc" id="L84">      replaceWarehouseOperation.replace(domainWarehouse);</span>
@@ -87,31 +87,7 @@ import java.util.List;
 <span class="fc" id="L87">    } catch (IllegalArgumentException e) {</span>
 <span class="fc" id="L88">      throw new WebApplicationException(e.getMessage(), 400);</span>
 <span class="fc" id="L89">    }</span>
-<span class="fc" id="L90">    return toWarehouseResponse(domainWarehouse);</span>
-  }
-
-  private com.fulfilment.application.monolith.warehouses.domain.models.Warehouse toDomainWarehouse(
-      Warehouse data) {
-<span class="fc" id="L95">    var warehouse = new com.fulfilment.application.monolith.warehouses.domain.models.Warehouse();</span>
-<span class="fc" id="L96">    warehouse.businessUnitCode = data.getBusinessUnitCode();</span>
-<span class="fc" id="L97">    warehouse.location = data.getLocation();</span>
-<span class="fc" id="L98">    warehouse.capacity = data.getCapacity();</span>
-<span class="fc" id="L99">    warehouse.stock = data.getStock();</span>
-<span class="fc" id="L100">    return warehouse;</span>
-  }
-
-  private Warehouse toWarehouseResponse(
-      com.fulfilment.application.monolith.warehouses.domain.models.Warehouse warehouse) {
-<span class="fc" id="L105">    var response = new Warehouse();</span>
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    if (warehouse.id != null) {</span>
-<span class="fc" id="L107">      response.setId(warehouse.id.toString());</span>
-    }
-<span class="fc" id="L109">    response.setBusinessUnitCode(warehouse.businessUnitCode);</span>
-<span class="fc" id="L110">    response.setLocation(warehouse.location);</span>
-<span class="fc" id="L111">    response.setCapacity(warehouse.capacity);</span>
-<span class="fc" id="L112">    response.setStock(warehouse.stock);</span>
-
-<span class="fc" id="L114">    return response;</span>
+<span class="fc" id="L90">    return WarehouseResourceMapper.toResponse(domainWarehouse);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

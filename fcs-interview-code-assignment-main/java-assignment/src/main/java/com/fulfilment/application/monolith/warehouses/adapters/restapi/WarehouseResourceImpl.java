@@ -40,19 +40,19 @@ public class WarehouseResourceImpl implements WarehouseResource {
 
   @Override
   public List<Warehouse> listAllWarehousesUnits() {
-    return warehouseStore.getAll().stream().map(this::toWarehouseResponse).toList();
+    return warehouseStore.getAll().stream().map(WarehouseResourceMapper::toResponse).toList();
   }
 
   @Override
   @Transactional
   public Warehouse createANewWarehouseUnit(@NotNull Warehouse data) {
-    var domainWarehouse = toDomainWarehouse(data);
+    var domainWarehouse = WarehouseResourceMapper.toDomain(data);
     try {
       createWarehouseOperation.create(domainWarehouse);
     } catch (IllegalArgumentException e) {
       throw new WebApplicationException(e.getMessage(), 400);
     }
-    return toWarehouseResponse(domainWarehouse);
+    return WarehouseResourceMapper.toResponse(domainWarehouse);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class WarehouseResourceImpl implements WarehouseResource {
     if (warehouse == null) {
       throw new WebApplicationException("Warehouse with id of " + id + " does not exist.", 404);
     }
-    return toWarehouseResponse(warehouse);
+    return WarehouseResourceMapper.toResponse(warehouse);
   }
 
   @Override
@@ -78,7 +78,7 @@ public class WarehouseResourceImpl implements WarehouseResource {
   @Transactional
   public Warehouse replaceTheCurrentActiveWarehouse(
       String businessUnitCode, @NotNull Warehouse data) {
-    var domainWarehouse = toDomainWarehouse(data);
+    var domainWarehouse = WarehouseResourceMapper.toDomain(data);
     domainWarehouse.businessUnitCode = businessUnitCode;
     try {
       replaceWarehouseOperation.replace(domainWarehouse);
@@ -87,30 +87,6 @@ public class WarehouseResourceImpl implements WarehouseResource {
     } catch (IllegalArgumentException e) {
       throw new WebApplicationException(e.getMessage(), 400);
     }
-    return toWarehouseResponse(domainWarehouse);
-  }
-
-  private com.fulfilment.application.monolith.warehouses.domain.models.Warehouse toDomainWarehouse(
-      Warehouse data) {
-    var warehouse = new com.fulfilment.application.monolith.warehouses.domain.models.Warehouse();
-    warehouse.businessUnitCode = data.getBusinessUnitCode();
-    warehouse.location = data.getLocation();
-    warehouse.capacity = data.getCapacity();
-    warehouse.stock = data.getStock();
-    return warehouse;
-  }
-
-  private Warehouse toWarehouseResponse(
-      com.fulfilment.application.monolith.warehouses.domain.models.Warehouse warehouse) {
-    var response = new Warehouse();
-    if (warehouse.id != null) {
-      response.setId(warehouse.id.toString());
-    }
-    response.setBusinessUnitCode(warehouse.businessUnitCode);
-    response.setLocation(warehouse.location);
-    response.setCapacity(warehouse.capacity);
-    response.setStock(warehouse.stock);
-
-    return response;
+    return WarehouseResourceMapper.toResponse(domainWarehouse);
   }
 }
