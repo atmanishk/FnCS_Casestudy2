@@ -75,7 +75,7 @@ Testing is an investment where return on investment (ROI) is measured in **confi
 - **Tier 2: Persistence & Transactional Slice Tests (15–20% of volume)**:
   - *Target*: Repository queries (`WarehouseRepository`, `FulfillmentRepository`) and asynchronous transactional event observers (`StoreSyncObserverTest` testing `AFTER_SUCCESS`).
   - *Why*: Verifies that SQL queries, foreign keys, and transaction boundaries work as intended.
-  - *Our Optimization*: In [`application.properties`](../src/main/resources/application.properties), we configured `%test.quarkus.datasource.db-kind=h2` in PostgreSQL compatibility mode. This allows all 73 integration and component tests to execute in under 14 seconds without waiting for Docker containers to spin up on every build.
+  - *Our Optimization*: In [`application.properties`](../src/main/resources/application.properties), we configured `%test.quarkus.datasource.db-kind=h2` in PostgreSQL compatibility mode. This allows our entire suite of 116 tests to execute rapidly without waiting for Docker containers to spin up on every build.
 
 - **Tier 3: End-to-End API Component Tests (5–10% of volume)**:
   - *Target*: REST-Assured endpoint tests (`WarehouseEndpointTest`, `StoreEndpointTest`, `ProductEndpointTest`, `FulfillmentEndpointTest`).
@@ -84,7 +84,7 @@ Testing is an investment where return on investment (ROI) is measured in **confi
 #### 2. Ensuring Test Coverage Remains Effective Over Time
 
 - **Automated CI Quality Gates (JaCoCo Enforcement)**:
-  High coverage is useless if it degrades with subsequent PRs. We configured `jacoco-maven-plugin:check` in `pom.xml` to strictly fail the build if line coverage drops below **80%**. Our test suite currently achieves **86.98% line coverage** across all packages.
+  High coverage is useless if it degrades with subsequent PRs. We configured `jacoco-maven-plugin:check` in `pom.xml` to strictly fail the build if line coverage drops below **80%**. Our test suite currently achieves **86.56% line coverage** (438 / 506 lines covered) across 116 automated tests.
 - **Mutation Testing (Pitest)**:
   Line coverage measures execution, not assertion quality. In mature teams, I introduce periodic mutation testing (altering conditionals and return values) to ensure tests genuinely fail when bugs are injected.
 - **Architecture Fitness Rules (ArchUnit)**:
