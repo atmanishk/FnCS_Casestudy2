@@ -6,12 +6,6 @@
 [![JaCoCo Coverage](https://img.shields.io/badge/Line%20Coverage-86.56%25-brightgreen.svg)](docs/TEST_COVERAGE_REPORT.md)
 [![Build & Tests](https://img.shields.io/badge/Tests-116%20Passing-success.svg)](docs/TEST_COVERAGE_REPORT.md)
 
-**Author**: Manish Kumar (<manish.mk0195@gmail.com>)  
-**Role Application**: Senior Java Engineer  
-**Tech Stack**: Java 21, Quarkus 3.15, Hibernate ORM with Panache, PostgreSQL, SmallRye OpenAPI / Swagger UI, JaCoCo, JUnit 5, REST-Assured
-
----
-
 ## Overview
 
 This repository contains my implementation of the **Warehouse, Store, Product, and Fulfillment Colocation Management Platform**. The project is designed with production-grade enterprise standards, applying **Hexagonal Architecture (Ports and Adapters)**, **Domain-Driven Design (DDD)**, transactional safety patterns, and strict separation of concerns.
