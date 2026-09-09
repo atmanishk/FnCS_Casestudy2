@@ -2,6 +2,7 @@ package com.fulfilment.application.monolith.fulfillment.domain;
 
 import com.fulfilment.application.monolith.fulfillment.adapters.database.DbFulfillment;
 import com.fulfilment.application.monolith.fulfillment.adapters.database.FulfillmentRepository;
+import com.fulfilment.application.monolith.fulfillment.domain.validator.FulfillmentValidator;
 import com.fulfilment.application.monolith.products.Product;
 import com.fulfilment.application.monolith.products.ProductRepository;
 import com.fulfilment.application.monolith.stores.Store;
@@ -11,10 +12,7 @@ import com.fulfilment.application.monolith.warehouses.domain.ports.WarehouseStor
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class FulfillmentService {

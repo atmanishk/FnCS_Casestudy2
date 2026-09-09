@@ -1,4 +1,4 @@
-package com.fulfilment.application.monolith.fulfillment.domain;
+package com.fulfilment.application.monolith.fulfillment.domain.validator;
 
 import com.fulfilment.application.monolith.fulfillment.adapters.database.DbFulfillment;
 import com.fulfilment.application.monolith.fulfillment.adapters.database.FulfillmentRepository;

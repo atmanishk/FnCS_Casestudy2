@@ -1,4 +1,4 @@
-package com.fulfilment.application.monolith.fulfillment.domain;
+package com.fulfilment.application.monolith.fulfillment.domain.validator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

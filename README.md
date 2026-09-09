@@ -78,7 +78,7 @@ Automated verification showing **86.56% line coverage** across all packages:
 - **Service & Endpoints**:
   - `FulfillmentService`: Coordinates validation, idempotency checks, and persistence.
   - `FulfillmentResource`: REST API for assigning, querying by store/warehouse, and removing fulfillments (`/fulfillment/assign`, `/fulfillment/store/{id}`, `/fulfillment/warehouse/{buCode}`).
-- **Test Suites**: [`FulfillmentValidatorTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/domain/FulfillmentValidatorTest.java) (17 tests), [`FulfillmentServiceTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/FulfillmentServiceTest.java) (9 tests), and [`FulfillmentEndpointTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/FulfillmentEndpointTest.java) (3 tests).
+- **Test Suites**: [`FulfillmentValidatorTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/domain/validator/FulfillmentValidatorTest.java) (17 tests), [`FulfillmentServiceTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/FulfillmentServiceTest.java) (9 tests), and [`FulfillmentEndpointTest`](fcs-interview-code-assignment-main/java-assignment/src/test/java/com/fulfilment/application/monolith/fulfillment/FulfillmentEndpointTest.java) (3 tests).
 
 ---
 
@@ -135,7 +135,7 @@ cd fcs-interview-code-assignment-main/java-assignment
 
 To view the generated JaCoCo coverage report:
 ```bash
-open docs/jacoco-report/index.html
+open target/jacoco-report/index.html
 ```
 
 ### Running in Development Mode
